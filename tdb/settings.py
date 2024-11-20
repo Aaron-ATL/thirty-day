@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 IS_HEROKU = "DYNO" in os.environ
-print(IS_HEROKU)
+
 if not IS_HEROKU:
     DEBUG = True
 
