@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% extends 'main_app/loggedin_base.html' %}
+{% load static %}
+
+
+{% block extra_links %}
+<link rel="stylesheet" media="screen" href="{% static 'assets/css/lightgallery-bundle.min.css' %}">
+{% endblock extra_links %}
+
+
+{% block body %}
+<!-- Page content -->
+<section class="container mt-4 mb-lg-5 pt-lg-2 pb-5">
+
+  <!-- Blog grid -->
+  <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 gy-md-4 gy-2">
+    
+    {% for lesson in lessons %}
+    <!-- Item -->
+    <div class="col pb-3">
+      <article class="card shadow-sm h-100">
+        <div class="position-relative">
+            <div class="d-flex align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100 zindex-2">
+                <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="btn btn-video btn-icon bg-white stretched-link watch-lesson" data-lpk="{{ lesson.pk }}" style="width: 60px; height: 60px;" data-bs-toggle="video" aria-label="Play video">
+                    <i class="bx bx-play" style="font-size: 2.5rem;"></i>
+                </a>
+            </div>
+            <img src="{% get_static_prefix %}thumbnails/{{ lesson.thumbnail_id }}.png" class="card-img-top" alt="{{ lesson.title }}">
+        </div>
+        <div class="card-body pb-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <span class="fs-sm text-muted" style="font-weight: 600;"><i class="bx bx-time-five me-1" style="vertical-align: -1px;"></i>{{ lesson.length }} min</span>
+            {% if lesson.pk in completed_lessons %}
+            <span class="fs-sm text-success" style="font-weight: 600;"><i class="bx bx-check me-1 fs-lg" style="vertical-align: -2px;"></i>Lesson watched</span>
+            {% endif %}
+          </div>
+          <h3 class="h5 mb-3">
+            <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="watch-lesson" data-bs-toggle="video" data-lpk="{{ lesson.pk }}">{{ lesson.number }}. {{ lesson.title }}</a>
+          </h3>
+          <p class="card-text fs-sm">{{ lesson.description }}</p>
+        </div>
+        {% if lesson.quiz %}
+            <div class="card-footer py-4 d-flex flex-column flex-md-row flex-lg-column justify-content-between">
+            <button class="btn btn-primary mb-2 mb-md-0 mb-lg-2 px-4" type="button" aria-label="Watch" aria-label="Watch" data-bs-toggle="modal" data-bs-target="#modal-{{ lesson.number }}">
+                Take audio quiz
+            </button>
+            <a href="{% get_static_prefix %}lesson_files/{{ lesson.lesson_file }}" class="btn btn-secondary px-4" type="button">
+                Download lesson files
+            </a>
+            </div>
+            <!-- Vertically centered modal -->
+            {% include 'main_app/quiz.html' with lesson=lesson %}
+        {% endif %}
+      </article>
+    </div>
+    
+    {% endfor %}
+
+</section>
+{% endblock body %}
+
+{% block script %}
+<script src="{% static 'assets/js/quiz-logic.js' %}"></script>
+<script>
+$(document).ready(function() {
+  $('.watch-lesson').click(function() {
+    $.ajax({
+        url: "{% url 'complete-lesson' %}",
+        method: 'GET',
+        data: {
+            "pk": $(this).data("lpk"),
+        },
+        dataType: 'json'
+    });
+  });
+});
+</script>
+{% endblock script %}

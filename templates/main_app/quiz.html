@@ -1,0 +1,45 @@
+{% load static %}
+<div class="modal fade" id="modal-{{ lesson.number }}" tabindex="-1" role="dialog">
+    
+    <div class="modal-dialog modal-xl" role="document">
+
+    <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">The {{ lesson.title }} Lesson — Audio Quiz</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+             <div class="modal-body">
+                <p class="fs-5">{{ lesson.quiz.question }}</p>
+                
+                <p class="lead mb-2 mb-md-3 fw-bold mt-5 fs-6 feedback" data-ln="{{ lesson.number }}">Listen to the examples and choose the right answer:</p>
+                {% for audio in lesson.quiz.answers.all %}
+                <!-- Audio player markup -->
+                <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" style="cursor: pointer;" {% if audio.is_correct %}data-yhw="27"{% else %}data-yhw="99"{% endif %}>
+                    <div class="audio-player card-body p-2">
+                    
+                    <!-- Audio tag with the link to the audio file -->
+                    <audio  src="{% get_static_prefix %}quiz_audio/{{ audio.file }}" preload="none"></audio>
+                
+                    <!-- Custom player markup -->
+                    <!-- <button type="button" class="btn btn-secondary btn-radio" {% if audio.is_correct %}data-yhw="27" {% else %}data-yhw="99" {% endif %}style="width: 20px; height: 20px; padding: 22px; margin-right: 15px;">{{ audio.answer_id|lower }}</button> -->
+                    <button type="button" class="ap-play-button btn btn-icon btn-primary" aria-label="Play/pause"></button>
+                    <span class="ap-current-time flex-shr fw-medium mx-3 mx-lg-4">0:00</span>
+                    <input type="range" class="ap-seek-slider" max="100" value="0">
+                    <span class="ap-duration flex-shr fw-medium mx-3 mx-lg-4">0:00</span>
+                    <div class="dropup">
+                        <div class="dropdown-menu dropdown-menu-dark my-1">
+                        <input type="range" class="ap-volume-slider" max="100" value="100">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                    <button class="btn btn-secondary btn-md quiz-close" type="button" data-ln="{{ lesson.number }}" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary btn-md disabled quiz-submit" data-ln="{{ lesson.number }}" type="button">Submit answer</button>
+            </div>
+        </div>
+    </div>
+</div>
