@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import (
-    Lesson, Profile, Quiz, QuizAnswer,
+    Lesson, Profile, Quiz, QuizQuestion,
 )
 
 # Register your models here.
@@ -37,4 +37,4 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(Lesson)
 admin.site.register(Profile)
 admin.site.register(Quiz)
-admin.site.register(QuizAnswer)
+admin.site.register(QuizQuestion)

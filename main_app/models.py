@@ -39,8 +39,6 @@ class QuizQuestion(models.Model):
     def __str__(self):
         return f"Lesson {self.quiz.lesson.number}: {self.text}"
         
-    class Meta:
-        ordering = ["answer_id"]
        
 class Profile(models.Model):
     def default_progress_info():
