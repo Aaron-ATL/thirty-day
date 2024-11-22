@@ -20,15 +20,8 @@ class Lesson(models.Model):
     class Meta:
         ordering = ["number"]
 
-class Quiz(models.Model):
-    lesson = models.OneToOneField(to=Lesson, on_delete=models.CASCADE, primary_key=True)
-    question = models.CharField(max_length=255, default="Question")
-    
-    def __str__(self):
-        return f"{self.lesson.title}"
-
 class QuizQuestion(models.Model):
-    quiz = models.ForeignKey(to=Quiz, on_delete=models.CASCADE, related_name="questions")
+    lesson = models.ForeignKey(to=Lesson, on_delete=models.CASCADE, related_name="questions")
     text = models.CharField(max_length=500)
     answer_1 = models.CharField(max_length=255)
     answer_2 = models.CharField(max_length=255)
@@ -37,7 +30,7 @@ class QuizQuestion(models.Model):
     audio_file = models.CharField(max_length=30)
     
     def __str__(self):
-        return f"Lesson {self.quiz.lesson.number}: {self.text}"
+        return f"Lesson {self.lesson.number}: {self.text}"
         
        
 class Profile(models.Model):
