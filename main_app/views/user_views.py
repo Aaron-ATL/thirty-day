@@ -30,7 +30,7 @@ def complete_lesson(request):
     completed_lessons.add(int(request.GET.get("pk")))
     profile.progress_info["completed_lessons"] = list(completed_lessons)
     profile.save()
-    return JsonResponse({})
+    return JsonResponse({"status":"success"})
     
 def make_member(request):
     profile = Profile.objects.get(user=request.user)

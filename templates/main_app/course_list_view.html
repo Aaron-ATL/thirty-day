@@ -75,7 +75,7 @@ $(document).ready(function() {
   });
   $('#start-quiz').click(function() {
     $.ajax({
-        url: "{% url 'start-quiz' %}",
+        url: "{% url 'get-quiz-questions' %}",
         method: 'GET',
         data: {
             "pk": $(this).data("lpk"),
