@@ -27,7 +27,7 @@ class QuizQuestion(models.Model):
     answer_2 = models.CharField(max_length=255)
     answer_3 = models.CharField(max_length=255)
     correct_answer = models.IntegerField()
-    audio_file = models.CharField(max_length=30)
+    audio_file = models.CharField(max_length=30, blank=True)
     
     def __str__(self):
         return f"Lesson {self.lesson.number}: {self.text}"
@@ -36,7 +36,8 @@ class QuizQuestion(models.Model):
 class Profile(models.Model):
     def default_progress_info():
         return {
-            "completed_lessons":[]
+            "completed_lessons":[],
+            "questions_answered_correctly":[]
         }
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     progress_info = models.JSONField(default=default_progress_info)
