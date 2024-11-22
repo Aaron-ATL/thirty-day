@@ -4,6 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.views.generic import ListView, TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from json import loads as json_loads
+from random import sample
 from .utils import webhook_is_verified, has_purchased_course, send_activation_email, create_user
 from .models import Lesson, Profile, User
 from .forms import CustomAuthenticationForm
@@ -21,6 +22,9 @@ class LessonListView(ListView):
         profile = Profile.objects.get(user=self.request.user)
         context['completed_lessons'] = profile.progress_info.get('completed_lessons')
         return context
+
+def get_quiz_questions(request):
+    return JsonResponse({})
 
 def complete_lesson(request):
     profile = Profile.objects.get(user=request.user)
