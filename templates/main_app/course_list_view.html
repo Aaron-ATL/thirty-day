@@ -42,7 +42,7 @@
         {% if lesson.questions.all %}
             <div class="card-footer py-4 d-flex flex-column flex-md-row flex-lg-column justify-content-between">
             <button class="btn btn-primary mb-2 mb-md-0 mb-lg-2 px-4" type="button" id="start-quiz" data-lpk="{{ lesson.pk }}" aria-label="Watch" aria-label="Watch" data-bs-toggle="modal" data-bs-target="#modal-{{ lesson.number }}">
-                Take audio quiz
+                Take Quiz
             </button>
             <a href="{% get_static_prefix %}lesson_files/{{ lesson.lesson_file }}" class="btn btn-secondary px-4" type="button">
                 Download lesson files
@@ -75,14 +75,20 @@ $(document).ready(function() {
   });
   $('#start-quiz').click(function() {
     $.ajax({
-        url: "{% url 'get-quiz-questions' %}",
+        url: "{% url 'start-quiz' %}",
         method: 'GET',
         data: {
             "pk": $(this).data("lpk"),
         },
         dataType: 'json'
+    }).done(function(data) {
+        $(".question").text(data.question_data.text);
+        $(".answer-1").text(data.question_data.answer_1);
+        $(".answer-2").text(data.question_data.answer_2);
+        $(".answer-3").text(data.question_data.answer_3);
     });
   });
+ 
 });
 </script>
 {% endblock script %}

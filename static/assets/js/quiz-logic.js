@@ -1,5 +1,19 @@
 $(document).ready(function() {
-  
+  $('.quiz-submit').click(function() {
+     $.ajax({
+         url: $(this).data("url"),
+         method: 'GET',
+         data: {
+             "index": $(this).data("quiz-index"),
+         },
+         dataType: 'json'
+     }).done(function(data) {
+         $(".question").text(data.question_data.text);
+         $(".answer-1").text(data.question_data.answer_1);
+         $(".answer-2").text(data.question_data.answer_2);
+         $(".answer-3").text(data.question_data.answer_3);
+     });
+   });
   $('.btn-radio').click(function() {
     resetQuiz();
     $('.quiz-submit[data-ln="'+ $(this).data("ln") +'"]').removeClass('disabled');
@@ -28,7 +42,6 @@ $(document).ready(function() {
         $(".quiz-submit").removeClass("d-none");
         $(".btn-radio").removeClass("bg-faded-success bg-faded-danger border-success border-danger");
         $(".feedback").removeClass("text-danger text-success");
-        $(".feedback").text("Listen to the examples and choose the correct answer:");
     });
   function resetQuiz() {
     $('.btn-radio').removeClass('active');
