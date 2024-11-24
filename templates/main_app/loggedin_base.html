@@ -108,6 +108,14 @@
           transform: rotate(360deg);
         }
       }
+      @font-face {
+          font-family: 'Hemisphers Bold Sans';
+          src: url('{% static "assets/fonts/HemisphersBoldSans.woff2" %}') format('woff2'),
+               url('{% static "assets/fonts/HemisphersBoldSans.woff" %}') format('woff');
+          font-weight: bold;
+          font-style: normal;
+          font-display: swap;
+      }
     </style>
     
     {% block style %}
@@ -151,8 +159,8 @@
       <header class="header navbar navbar-expand-lg bg-light shadow-sm shadow-dark-mode-none fixed-top">
         <div class="container px-3">
           <a href="{% url 'index' %}" class="navbar-brand pe-3">
-            <img src="{% static 'assets/img/mtm_logo.svg' %}" width="47" alt="30-Day Bassist">
-            30-Day Bassist
+            {% comment %}<img src="{% static 'assets/img/mtm_logo.svg' %}" width="47" alt="30-Day Bassist">{% endcomment %}
+            <span style="font-family: 'Hemisphers Bold Sans'; font-weight: bold;">30-Day Bassist</span>
           </a>
           <div id="navbarNav" class="offcanvas offcanvas-end">
             <div class="offcanvas-header border-bottom">
@@ -178,12 +186,14 @@
           <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          {% if request.user.profile.community_member %}
-          <a href="https://community.basscamp.com/" class="btn btn-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex" target="_blank" rel="noopener">
-            <i class="bx bx-chat fs-5 lh-1 me-1"></i>
-            &nbsp;Community
-          </a>
-          {% endif %}
+          {% comment %}
+            {% if request.user.profile.community_member %}
+            <a href="https://community.basscamp.com/" class="btn btn-secondary btn-sm fs-sm rounded d-none d-lg-inline-flex" target="_blank" rel="noopener">
+                <i class="bx bx-chat fs-5 lh-1 me-1"></i>
+                &nbsp;Community
+            </a>
+            {% endif %}
+          {% endcomment %}
         </div>
       </header>
 
@@ -199,6 +209,7 @@
     {% endblock body %}
 
     <!-- Subscription CTA -->
+    {% comment %}
     <section class="py-5 bg-secondary">
         {% if not request.user.profile.community_member %}
       <div class="container py-md-3 py-lg-5">
@@ -228,6 +239,7 @@
       </div>
       {% endif %}
     </section>
+    {% endcomment %}
     </main>
 
     <!-- Back to top button -->
