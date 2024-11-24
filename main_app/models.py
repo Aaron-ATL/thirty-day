@@ -45,6 +45,9 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user.username
+        
+    def get_total_stars(self):
+        return int(len(self.progress_info.get("questions_answered_correctly", [])))
 
 
 @receiver(post_save, sender=User)

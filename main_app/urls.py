@@ -2,6 +2,7 @@ from django.urls import path, include
 from .views.user_views import (
     LessonListView,
     complete_lesson,
+    get_stars_earned,
     make_member,
     webhook,
 )
@@ -16,6 +17,7 @@ urlpatterns = [
     path('quiz/start/', start_quiz, name='start-quiz'),
     path('quiz/answer/', process_answer, name='quiz-answer'),
     path('quiz/reset/', reset_quiz, name='quiz-reset'),
+    path('ajax/get-stars-earned/', get_stars_earned, name='get-stars-earned'),
     path('ajax/complete-lesson/', complete_lesson, name='complete-lesson'),
     path('ajax/make-member/', make_member, name='make-member'),
     path('webhook/', webhook),

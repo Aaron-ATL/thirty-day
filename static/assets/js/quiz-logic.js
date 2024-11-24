@@ -161,6 +161,16 @@ $(document).ready(function() {
     }
   }
   
+  $(document).on('hidden.bs.modal', function (e) {
+      $.ajax({
+          url: $("#stars-earned").data("url"),
+          method: 'GET',
+          dataType: 'json'
+      }).done(function(data) {
+        $("#stars-earned").text(data.stars_earned);
+      });
+  });
+  
   function vanish(e) {
     e.addClass("d-none");
   }

@@ -31,6 +31,10 @@ def complete_lesson(request):
     profile.progress_info["completed_lessons"] = list(completed_lessons)
     profile.save()
     return JsonResponse({"status":"success"})
+
+def get_stars_earned(request):
+    profile = Profile.objects.get(user=request.user)
+    return JsonResponse({"stars_earned": profile.get_total_stars()})
     
 def make_member(request):
     profile = Profile.objects.get(user=request.user)
