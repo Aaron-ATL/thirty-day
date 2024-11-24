@@ -113,6 +113,7 @@ $(document).ready(function() {
     $('.card').removeClass('bg-primary bg-faded-primary border-primary');
     appear($('.btn-radio'));
     $('.quiz-submit').removeClass('disabled');
+    $('.btn-radio').removeClass('active');
     $(this).addClass('active');
     $(this).addClass('border-primary bg-faded-primary');
   });
