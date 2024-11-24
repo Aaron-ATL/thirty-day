@@ -21,21 +21,35 @@
       <article class="card shadow-sm h-100">
         <div class="position-relative">
             <div class="d-flex align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100 zindex-2">
-                <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="btn btn-video btn-icon bg-white stretched-link watch-lesson" data-lpk="{{ lesson.pk }}" style="width: 60px; height: 60px;" data-bs-toggle="video" aria-label="Play video">
-                    <i class="bx bx-play" style="font-size: 2.5rem;"></i>
-                </a>
+                {% if not lesson.bonus_lesson or request.user.profile.get_total_stars >= 130 %}
+                    <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="btn btn-video btn-icon bg-white stretched-link watch-lesson" data-lpk="{{ lesson.pk }}" style="width: 60px; height: 60px;" data-bs-toggle="video" aria-label="Play video">
+                        <i class="bx bx-play" style="font-size: 2.5rem;"></i>
+                    </a>
+                {% else %}
+                    <i class="bx bxs-lock-alt" style="font-size: 4.5rem; color: #ffffff; opacity: 0.8;"></i>
+                {% endif %}
             </div>
             <img src="{% get_static_prefix %}thumbnails/{{ lesson.thumbnail_id }}.png" class="card-img-top" alt="{{ lesson.title }}">
         </div>
         <div class="card-body pb-4">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <span class="fs-sm" style="font-weight: 600; color: #7ab5ff"><i class="bx bx-time-five me-1" style="vertical-align: -1px;"></i>{{ lesson.length }} min</span>
-            {% if lesson.pk in completed_lessons %}
-            <span class="fs-sm text-success" style="font-weight: 600;"><i class="bx bx-check me-1 fs-lg" style="vertical-align: -2px;"></i>Lesson watched</span>
+            {% if not lesson.bonus_lesson or request.user.profile.get_total_stars >= 130 %}
+                {% if lesson.pk in completed_lessons %}
+                    <span class="fs-sm text-success" style="font-weight: 600;"><i class="bx bx-check me-1 fs-lg" style="vertical-align: -2px;"></i>Lesson watched</span>
+                {% endif %}
+            {% else %}
+                <span class="fs-sm" style="font-weight: 600;">130 <i class="bx bxs-star" style="vertical-align: -1px; color: #ffba08;"></i> needed to unlock</span>
             {% endif %}
           </div>
           <h3 class="h5 mb-3">
-            <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="watch-lesson" data-bs-toggle="video" data-lpk="{{ lesson.pk }}">{{ lesson.number }}. {{ lesson.title }}</a>
+            <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="watch-lesson" data-bs-toggle="video" data-lpk="{{ lesson.pk }}">
+                {% if lesson.bonus_lesson %} 
+                    <span class="text-gradient-primary">{{ lesson.number }}. Bonus Lesson: {{ lesson.title }}</span>
+                {% else %}
+                    {{ lesson.number }}. {{ lesson.title }}
+                {% endif %}
+            </a>
           </h3>
           <p class="card-text fs-sm">{{ lesson.description }}</p>
         </div>

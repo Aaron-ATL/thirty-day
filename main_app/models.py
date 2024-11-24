@@ -13,6 +13,7 @@ class Lesson(models.Model):
     length = models.IntegerField(default=5)  # rounded minutes
     thumbnail_id = models.IntegerField(default=100)
     lesson_file = models.CharField(max_length=60, default="lesson_file")
+    bonus_lesson = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.number}. {self.title}"
