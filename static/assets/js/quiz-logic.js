@@ -67,9 +67,11 @@ $(document).ready(function() {
      }).done(function(data) {
         $(".quiz-submit").addClass("d-none");
          if (data.answered_correctly) {
+           $('.feedback').text("You got it right!").addClass("text-success");
            activeAnswer.addClass("bg-faded-success border-success");
-           $('.feedback').text("You nailed it!").addClass("text-success");
-           $('.question-index').text(data.stars_earned_on_this_lesson);
+           var stars = $('.question-index').data("stars") + 1;
+           $('.question-index').data("stars", stars);
+           $('.question-index').text(stars);
          } else {
            activeAnswer.addClass("bg-faded-danger border-danger");
            $('.feedback').text("Not quite right.").addClass("text-danger");
@@ -97,7 +99,7 @@ $(document).ready(function() {
                 $(".question").text("Congrats! You finished the quiz and got everything right! You can now move on to the next lesson or reset the quiz to do it again.");
               } else {
                 $(".quiz-again").removeClass("d-none"); // Hide the submit button if necessary
-                $(".question").text("Congrats! You finished the quiz. You can now move on to the next lesson or go over what you got wrong to earn more stars.");
+                $(".question").text("You finished this quiz attempt. You can now move on to the next lesson or go over what you got wrong to earn more stars.");
               }
             }
           }, 1500);
@@ -134,5 +136,6 @@ $(document).ready(function() {
     $(".quiz-length").text(data.total_stars_available);
     $(".quiz-submit").data("quiz-index", 0);
     $(".question-index").text(data.stars_earned_on_this_lesson);
+    $(".question-index").data("stars", data.stars_earned_on_this_lesson);
   }
 });
