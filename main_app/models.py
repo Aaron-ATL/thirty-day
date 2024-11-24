@@ -37,7 +37,7 @@ class Profile(models.Model):
     def default_progress_info():
         return {
             "completed_lessons":[],
-            "questions_answered_correctly":[]
+            "questions_answered_correctly":[],
         }
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     progress_info = models.JSONField(default=default_progress_info)

@@ -12,22 +12,27 @@
                 <p class="fs-5 text-white question"></p>
                 
                 <p class="lead mb-2 mb-md-3 fw-bold mt-5 fs-6 feedback" data-ln="{{ lesson.number }}"></p>
-                <!-- Audio player markup -->
-                <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" style="cursor: pointer;">
+                
+                <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" data-answer-id="1" style="cursor: pointer;">
                     <p class="fs-lg mb-0"><span class="text-white">a) </span><span class="answer-1"></span></p>
                 </div>
                 
-                <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" style="cursor: pointer;">
+                <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" data-answer-id="2" style="cursor: pointer;">
                     <p class="fs-lg mb-0"><span class="text-white">b) </span><span class="answer-2"></span></p>
                 </div>
                 
-                <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" style="cursor: pointer;">
+                <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" data-answer-id="3" style="cursor: pointer;">
                     <p class="fs-lg mb-0"><span class="text-white">c) </span><span class="answer-3"></span></p>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary btn-md quiz-close" type="button" data-ln="{{ lesson.number }}" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-primary btn-md disabled quiz-submit" data-quiz-index="0" data-url="{% url 'quiz-answer' %}" data-ln="{{ lesson.number }}" type="button">Submit answer</button>
+            <div class="modal-footer justify-content-between">
+                <p><span class="question-index"></span>/<span class="quiz-length"></span></p>
+                <div>
+                    <button class="btn btn-secondary btn-md quiz-reset mx-2 d-none" type="button" data-url="{% url 'quiz-reset' %}" data-lpk="{{ lesson.pk }}">Reset quiz</button>
+                    <button class="btn btn-secondary btn-md quiz-close mx-2 d-none" type="button" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary btn-md disabled quiz-submit" data-quiz-index="0" data-url="{% url 'quiz-answer' %}" data-ln="{{ lesson.number }}" type="button">Submit answer</button>
+                    <button class="btn btn-primary btn-md quiz-again d-none" data-quiz-index="0" data-lpk="{{ lesson.pk }}" data-url="{% url 'start-quiz' %}" data-ln="{{ lesson.number }}" type="button">Try again</button>
+                </div>
             </div>
         </div>
     </div>

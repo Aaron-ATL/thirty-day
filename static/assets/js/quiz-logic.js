@@ -1,50 +1,137 @@
 $(document).ready(function() {
+
+  $('.start-quiz').click(function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: $(this).data("url"),
+        method: 'GET',
+        data: {
+            "lesson_pk": $(this).data("lpk"),
+        },
+        dataType: 'json'
+    }).done(function(data) {
+      resetQuizUI();
+      if ("question_data" in data) {
+          loadQuiz(data);
+      } else {
+          $(".quiz-length").text(data.stars_earned_on_this_lesson);
+          $(".question-index").text(data.stars_earned_on_this_lesson);
+          $(".question").text("Congrats! You finished the quiz and got everything right! You can now move on to the next lesson or reset the quiz to do it again.");
+          $(".quiz-close").removeClass("d-none");
+          $(".btn-radio").addClass("d-none"); // Hide the answer options
+          $(".quiz-submit").addClass("d-none"); // Hide the submit button if necessary
+          $(".quiz-reset").removeClass("d-none"); // Hide the submit button if necessary
+      }
+    });
+  });
+
+  $('.quiz-again').click(function() {
+    $.ajax({
+        url: $(this).data("url"),
+        method: 'GET',
+        data: {
+            "lesson_pk": $(this).data("lpk"),
+        },
+        dataType: 'json'
+    }).done(function(data) {
+      resetQuizUI();
+      loadQuiz(data);
+    });
+  });
+
+  $('.quiz-reset').click(function() {
+     $.ajax({
+        url: $(this).data("url"),
+        method: 'GET',
+        data: {
+            "lesson_pk": $(this).data("lpk")
+        },
+        dataType: 'json'
+     }).done(function(data) {
+       resetQuizUI();
+       loadQuiz(data);
+     });
+   });
+
   $('.quiz-submit').click(function() {
+     var activeAnswer = $('.card-hover.active');
      $.ajax({
          url: $(this).data("url"),
          method: 'GET',
          data: {
              "index": $(this).data("quiz-index"),
+             "active_answer_id": activeAnswer.data("answer-id")
          },
          dataType: 'json'
      }).done(function(data) {
-         $(".question").text(data.question_data.text);
-         $(".answer-1").text(data.question_data.answer_1);
-         $(".answer-2").text(data.question_data.answer_2);
-         $(".answer-3").text(data.question_data.answer_3);
+        $(".quiz-submit").addClass("d-none");
+         if (data.answered_correctly) {
+           activeAnswer.addClass("bg-faded-success border-success");
+           $('.feedback').text("You nailed it!").addClass("text-success");
+           $('.question-index').text( parseInt($('.question-index').text(), 10) + 1 );
+         } else {
+           activeAnswer.addClass("bg-faded-danger border-danger");
+           $('.feedback').text("Not quite right.").addClass("text-danger");
+         }
+          $(".quiz-submit").data("quiz-index", data.index);
+          setTimeout(function () {
+            $('.btn-radio').removeClass('active');
+            $('.quiz-submit').removeClass('d-none');
+            $(".feedback").text("");
+            if ("question_data" in data) {
+              $(".btn-radio").removeClass("bg-faded-success bg-faded-danger border-success border-danger");
+              $(".feedback").removeClass("text-danger text-success");
+              $(".quiz-submit").addClass("disabled");
+              $('.card').removeClass('bg-primary bg-faded-primary border-primary');
+              $(".question").text(data.question_data.text);
+              $(".answer-1").text(data.question_data.answer_1);
+              $(".answer-2").text(data.question_data.answer_2);
+              $(".answer-3").text(data.question_data.answer_3);
+            } else {
+              $(".btn-radio").addClass("d-none");
+              $(".quiz-close").removeClass("d-none");
+              $(".quiz-submit").addClass("d-none"); // Hide the submit button if necessary
+              if (data.all_correct) {
+                $(".quiz-reset").removeClass("d-none"); // Hide the submit button if necessary
+                $(".question").text("Congrats! You finished the quiz and got everything right! You can now move on to the next lesson or reset the quiz to do it again.");
+              } else {
+                $(".quiz-again").removeClass("d-none"); // Hide the submit button if necessary
+                $(".question").text("Congrats! You finished the quiz. You can now move on to the next lesson or go over what you got wrong to earn more stars.");
+              }
+            }
+          }, 1500);
      });
    });
+  
   $('.btn-radio').click(function() {
-    resetQuiz();
-    $('.quiz-submit[data-ln="'+ $(this).data("ln") +'"]').removeClass('disabled');
+    $(".btn-radio").removeClass("bg-faded-success bg-faded-danger border-success border-danger");
+    $('.card').removeClass('bg-primary bg-faded-primary border-primary');
+    $('.btn-radio').removeClass('active');
+    $('.quiz-submit').removeClass('disabled');
     $(this).addClass('active');
     $(this).addClass('border-primary bg-faded-primary');
   });
 
-  $('.quiz-submit').click(function() {
-    var activeAnswer = $('.card-hover.active[data-ln="'+ $(this).data("ln") +'"]');
-    if (activeAnswer.data("yhw") == "27") {
-      activeAnswer.addClass("bg-faded-success border-success");
-      $('.feedback[data-ln="'+ $(this).data("ln") +'"]').text("You nailed it!").addClass("text-success");
-    } else {
-      activeAnswer.addClass("bg-faded-danger border-danger");
-      var correctAnswer = $('.card-hover[data-ln="'+ $(this).data("ln") +'"][data-yhw="27"]');
-      correctAnswer.addClass("bg-faded-success border-success");
-      $('.feedback[data-ln="'+ $(this).data("ln") +'"]').text("Not quite right. Listen to the correct answer highlighted in green:").addClass("text-danger");
-    }
-
-    $(this).addClass('d-none');
-    $('.quiz-close[data-ln="'+ $(this).data("ln") +'"]').text("Back to overview");
-  });
-  $(document).on('hidden.bs.modal', function (e) {
-        resetQuiz();
-        $(".quiz-submit").addClass("disabled");
-        $(".quiz-submit").removeClass("d-none");
-        $(".btn-radio").removeClass("bg-faded-success bg-faded-danger border-success border-danger");
-        $(".feedback").removeClass("text-danger text-success");
-    });
-  function resetQuiz() {
-    $('.btn-radio').removeClass('active');
+  function resetQuizUI() {
+    $(".btn-radio").removeClass("bg-faded-success bg-faded-danger border-success border-danger");
+    $('.btn-radio').removeClass('active d-none');
     $('.card').removeClass('bg-primary bg-faded-primary border-primary');
+    $(".feedback").removeClass("text-danger text-success");
+    $(".feedback").text("");
+    $(".quiz-submit").addClass("disabled");
+    $(".quiz-submit").removeClass("d-none");
+    $(".quiz-reset").addClass("d-none");
+    $(".quiz-again").addClass("d-none"); // Hide the submit button if necessary
+    $(".quiz-close").addClass("d-none");
+  }
+  
+  function loadQuiz(data) {
+    $(".question").text(data.question_data.text);
+    $(".answer-1").text(data.question_data.answer_1);
+    $(".answer-2").text(data.question_data.answer_2);
+    $(".answer-3").text(data.question_data.answer_3);
+    $(".quiz-length").text(data.total_stars_available);
+    $(".quiz-submit").data("quiz-index", 0);
+    $(".question-index").text(data.stars_earned_on_this_lesson);
   }
 });
