@@ -98,5 +98,6 @@ def prepare_question_data(pk):
         "answer_1": next_question.answer_1,
         "answer_2": next_question.answer_2,
         "answer_3": next_question.answer_3,
+        "audio_file": next_question.audio_file,
     }
 

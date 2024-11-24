@@ -10,7 +10,24 @@
             </div>
              <div class="modal-body">
                 <p class="fs-5 text-white question"></p>
+
+                <div class="audio-player card-body p-2 mt-2 d-none">
+                     
+                    <!-- Audio tag with the link to the audio file -->
+                    <audio src="#" data-path="{% get_static_prefix %}quiz_audio/" preload="none"></audio>
                 
+                    <!-- Custom player markup -->
+                    <!-- <button type="button" class="btn btn-secondary btn-radio" {% if audio.is_correct %}data-yhw="27" {% else %}data-yhw="99" {% endif %}style="width: 20px; height: 20px; padding: 22px; margin-right: 15px;">{{ audio.answer_id|lower }}</button> -->
+                    <button type="button" class="ap-play-button btn btn-icon btn-primary" aria-label="Play/pause"></button>
+                    <span class="ap-current-time flex-shr fw-medium mx-3 mx-lg-4">0:00</span>
+                    <input type="range" class="ap-seek-slider" max="100" value="0">
+                    <span class="ap-duration flex-shr fw-medium mx-3 mx-lg-4">0:00</span>
+                    <div class="dropup">
+                        <div class="dropdown-menu dropdown-menu-dark my-1">
+                        <input type="range" class="ap-volume-slider" max="100" value="100">
+                        </div>
+                    </div>
+                </div>
                 <p class="lead mb-2 mb-md-3 fw-bold mt-5 fs-6 feedback" data-ln="{{ lesson.number }}"></p>
                 
                 <div class="card p-lg-4 p-md-2 mb-2 mb-lg-3 btn-radio card-hover" data-ln="{{ lesson.number }}" data-answer-id="1" style="cursor: pointer;">
