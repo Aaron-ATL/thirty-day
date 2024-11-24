@@ -74,7 +74,7 @@ $(document).ready(function() {
            $('.question-index').text(stars);
          } else {
            activeAnswer.addClass("bg-faded-danger border-danger");
-           $('.feedback').text("Not quite right.").addClass("text-danger");
+           $('.feedback').text("That's not right.").addClass("text-danger");
          }
           $(".quiz-submit").data("quiz-index", data.index);
           setTimeout(function () {

@@ -26,7 +26,12 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <p><span class="question-index" data-stars=0></span>/<span class="quiz-length"></span></p>
+                <p>
+                    You earned
+                    <span class="question-index" data-stars=0></span>
+                    <i class="bx bxs-star me-1" style="vertical-align: -1px; color: #ffba08;"></i>out of <span class="quiz-length"></span>
+                    <i class="bx bxs-star me-1" style="vertical-align: -1px; color: #ffba08;"></i>
+                </p>
                 <div>
                     <button class="btn btn-secondary btn-md quiz-reset mx-2 d-none" type="button" data-url="{% url 'quiz-reset' %}" data-lpk="{{ lesson.pk }}">Reset quiz</button>
                     <button class="btn btn-secondary btn-md quiz-close mx-2 d-none" type="button" data-bs-dismiss="modal">Close</button>
