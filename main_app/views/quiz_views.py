@@ -94,4 +94,4 @@ def prepare_question_data(pk):
         "answer_2": next_question.answer_2,
         "answer_3": next_question.answer_3,
     }
-    
+

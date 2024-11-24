@@ -68,7 +68,7 @@ $(document).ready(function() {
          if (data.answered_correctly) {
            activeAnswer.addClass("bg-faded-success border-success");
            $('.feedback').text("You nailed it!").addClass("text-success");
-           $('.question-index').text( parseInt($('.question-index').text(), 10) + 1 );
+           $('.question-index').text( parseInt($('.question-index').text()) + 1 );
          } else {
            activeAnswer.addClass("bg-faded-danger border-danger");
            $('.feedback').text("Not quite right.").addClass("text-danger");
