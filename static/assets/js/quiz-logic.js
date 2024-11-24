@@ -60,7 +60,8 @@ $(document).ready(function() {
          method: 'GET',
          data: {
              "index": $(this).data("quiz-index"),
-             "active_answer_id": activeAnswer.data("answer-id")
+             "active_answer_id": activeAnswer.data("answer-id"),
+             "lesson_pk": $(this).data("lpk")
          },
          dataType: 'json'
      }).done(function(data) {
@@ -68,7 +69,7 @@ $(document).ready(function() {
          if (data.answered_correctly) {
            activeAnswer.addClass("bg-faded-success border-success");
            $('.feedback').text("You nailed it!").addClass("text-success");
-           $('.question-index').text( parseInt($('.question-index').text()) + 1 );
+           $('.question-index').text(data.stars_earned_on_this_lesson);
          } else {
            activeAnswer.addClass("bg-faded-danger border-danger");
            $('.feedback').text("Not quite right.").addClass("text-danger");

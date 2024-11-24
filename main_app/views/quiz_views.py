@@ -36,7 +36,7 @@ def process_answer(request):
     current_quiz_ids = list(profile.progress_info.get("current_quiz"))
     current_question_id = current_quiz_ids[index]
     current_question = QuizQuestion.objects.get(pk=current_question_id)
-
+    
     # Check if the selected answer is correct
     answered_correctly = current_question.correct_answer == selected_answer
 
@@ -49,12 +49,18 @@ def process_answer(request):
 
     # Move to the next question
     index += 1
+
     # Check if the quiz is completed
     if index == len(current_quiz_ids):
+        current_lesson = Lesson.objects.get(pk=request.GET.get("lesson_pk"))
+        all_lesson_questions = current_lesson.questions.all()
+        all_lesson_questions_ids = all_lesson_questions.values_list('pk', flat=True)
+        stars_earned_on_this_lesson = len(set(profile.progress_info.get('questions_answered_correctly', [])).intersection(all_lesson_questions_ids))
         # Determine if all questions were answered correctly
         all_correct = set(current_quiz_ids).issubset(profile.progress_info.get('questions_answered_correctly', []))
         return JsonResponse({
             "answered_correctly": answered_correctly,
+            "stars_earned_on_this_lesson": stars_earned_on_this_lesson,
             "all_correct": all_correct
         })
      
