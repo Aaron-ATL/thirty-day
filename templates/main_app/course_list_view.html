@@ -43,13 +43,13 @@
             {% endif %}
           </div>
           <h3 class="h5 mb-3">
-            <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="watch-lesson" data-bs-toggle="video" data-lpk="{{ lesson.pk }}">
                 {% if lesson.bonus_lesson %} 
                     <span class="text-gradient-primary">{{ lesson.number }}. Bonus Lesson: {{ lesson.title }}</span>
                 {% else %}
-                    {{ lesson.number }}. {{ lesson.title }}
+                    <a href="https://vimeo.com/{{ lesson.vimeo_id }}" class="watch-lesson" data-bs-toggle="video" data-lpk="{{ lesson.pk }}">
+                        {{ lesson.number }}. {{ lesson.title }}
+                    </a>
                 {% endif %}
-            </a>
           </h3>
           <p class="card-text fs-sm">{{ lesson.description }}</p>
         </div>

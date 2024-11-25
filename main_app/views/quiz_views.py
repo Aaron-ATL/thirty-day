@@ -11,7 +11,8 @@ def start_quiz(request):
     all_lesson_questions = lesson.questions.all()
     questions_not_done = all_lesson_questions.exclude(pk__in=questions_already_done)
     stars_earned_on_this_lesson = len(all_lesson_questions) - len(questions_not_done)
-    profile.progress_info["current_quiz"] = list(set(questions_not_done.values_list('pk', flat=True)))
+    profile.progress_info["current_quiz"] = sorted(list(set(questions_not_done.values_list('pk', flat=True))))
+    print(profile.progress_info["current_quiz"], questions_not_done.values_list('pk', flat=True))
     profile.save()
     
     if not questions_not_done:
@@ -33,7 +34,7 @@ def process_answer(request):
     selected_answer = int(request.GET.get("active_answer_id"))
 
     # Retrieve the current quiz question IDs
-    current_quiz_ids = list(profile.progress_info.get("current_quiz"))
+    current_quiz_ids = sorted(list(profile.progress_info.get("current_quiz")))
     current_question_id = current_quiz_ids[index]
     current_question = QuizQuestion.objects.get(pk=current_question_id)
     
@@ -76,7 +77,7 @@ def reset_quiz(request):
     questions_already_done = set(profile.progress_info.get('questions_answered_correctly', []))
     updated_questions = questions_already_done - question_pks_to_remove
     profile.progress_info["questions_answered_correctly"] = list(updated_questions)
-    profile.progress_info["current_quiz"] = list(set(all_lesson_questions.values_list('pk', flat=True)))
+    profile.progress_info["current_quiz"] = sorted(list(set(all_lesson_questions.values_list('pk', flat=True))))
     profile.save()
     
     question_data = all_lesson_questions.values().first()
