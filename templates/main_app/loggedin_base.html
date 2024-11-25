@@ -157,8 +157,9 @@
     <header class="header navbar navbar-expand-lg bg-light shadow-sm fixed-top" style="border-bottom: 1px solid #041020">
       <div class="container px-3">
         <!-- Navbar Brand -->
-        <a href="{% url 'index' %}" class="navbar-brand pe-3" style="margin-bottom: -4px;">
-          <span style="font-family: 'Hemisphers Bold Sans'; font-weight: bold; text-shadow: 3px 5px #000000;">30-Day Bassist</span>
+        <a href="{% url 'index' %}" class="navbar-brand pe-3">
+                     <img src="{% static 'assets/img/30day3.svg' %}" width="150" alt="30 Day Bassist">
+                         {% comment %}<span style="font-family: 'Hemisphers Bold Sans'; font-weight: bold; text-shadow: 3px 5px #000000;">30-Day Bassist</span>{% endcomment %}
         </a>
     
         <!-- Right Side Container -->

@@ -14061,7 +14061,7 @@ html:not([dir=rtl]) .range-slider-ui.noUi-horizontal .noUi-handle {
 }
 [data-bs-theme=dark] .btn-video {
   --si-btn-video-bg: rgba(255, 255, 255, 0.05);
-  --si-btn-video-hover-bg: #1450E0;
+  --si-btn-video-hover-bg: #1466F1;
   --si-btn-video-color: #fff;
   --si-btn-video-hover-color: #fff;
   --si-btn-video-shadow: none;
