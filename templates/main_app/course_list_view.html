@@ -18,7 +18,7 @@
     {% for lesson in lessons %}
     <!-- Item -->
     <div class="col-12 col-sm-12 col-md-6 col-lg-4 pb-3">
-      <article class="card shadow-sm h-100">
+      <article class="card h-100" style="box-shadow: 5px 5px 3px #030c1852;">
         <div class="position-relative">
             <div class="d-flex align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100 zindex-2">
                 {% if not lesson.bonus_lesson or request.user.profile.get_total_stars >= 130 %}
@@ -58,7 +58,7 @@
             <button class="btn btn-primary mb-2 mb-md-0 mb-lg-2 px-4 start-quiz" type="button" data-url="{% url 'start-quiz' %}" data-lpk="{{ lesson.pk }}" aria-label="Watch" aria-label="Watch" data-bs-toggle="modal" data-bs-target="#modal-{{ lesson.number }}">
                 Take Quiz
             </button>
-            <a href="{% get_static_prefix %}lesson_files/{{ lesson.lesson_file }}" class="btn btn-secondary px-4" type="button">
+            <a href="{% get_static_prefix %}lesson_files/{{ lesson.lesson_file }}" style="border: 1px solid #041020;" class="btn btn-secondary px-4" type="button">
                 Download lesson files
             </a>
             </div>

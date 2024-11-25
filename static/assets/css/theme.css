@@ -15432,7 +15432,7 @@ hr.dropdown-divider {
 }
 
 [data-bs-theme=dark] .card:not([data-bs-theme=light]).shadow-sm, [data-bs-theme=dark] .card:not([data-bs-theme=light]).shadow, [data-bs-theme=dark] .card:not([data-bs-theme=light]).shadow-lg, [data-bs-theme=dark] .card:not([data-bs-theme=light]).border-0 {
-  background-color: #0c1624;
+  background-color: #0c162478;
 }
 [data-bs-theme=dark] .card-hover:not([data-bs-theme=light]):hover {
   background-color: var(--si-secondary-bg);
