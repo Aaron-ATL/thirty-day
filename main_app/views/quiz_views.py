@@ -17,14 +17,16 @@ def start_quiz(request):
     if not questions_not_done:
         return JsonResponse({
             "message": "Quiz already completed.",
-            "stars_earned_on_this_lesson": stars_earned_on_this_lesson
+            "stars_earned_on_this_lesson": stars_earned_on_this_lesson,
         })
     
     question_data = questions_not_done.values().first()
 
     return JsonResponse({"question_data": question_data,
                          "total_stars_available": len(all_lesson_questions),
-                         "stars_earned_on_this_lesson": stars_earned_on_this_lesson})
+                         "stars_earned_on_this_lesson": stars_earned_on_this_lesson,
+                         "current_lpk": lesson.pk
+    })
         
 @login_required
 def process_answer(request):
@@ -61,7 +63,8 @@ def process_answer(request):
     return JsonResponse(
         {"question_data": prepare_question_data(current_quiz_ids[index]),
          "index": index,
-         "answered_correctly": answered_correctly}
+         "answered_correctly": answered_correctly,
+         "current_lpk": current_question.lesson.pk}
     )
 
 @login_required
@@ -83,6 +86,7 @@ def reset_quiz(request):
 
     return JsonResponse({"question_data": question_data,
                          "stars_earned_on_this_lesson": 0,
+                         "current_lpk": lesson_pk,
                          "total_stars_available": len(all_lesson_questions)})
 
 def prepare_question_data(pk):

@@ -74,7 +74,7 @@ $(document).ready(function() {
            $('.question-index').text(stars);
          } else {
            activeAnswer.addClass("bg-faded-danger border-danger");
-           $('.feedback').text("That's not right.").addClass("text-danger");
+           $('.feedback').text("Not quite right").addClass("text-danger");
          }
           $(".quiz-submit").data("quiz-index", data.index);
           setTimeout(function () {
@@ -145,17 +145,17 @@ $(document).ready(function() {
   
   function updateAudioPlayer(data) {
     if (data.question_data.audio_file) {
+      
       appear($(".audio-player"));
       $(".audio-player").css("--seek-before-width", "0%");
       $(".ap-current-time").text("0:00");
       $(".ap-seek-slider").val(0);
       var staticPrefix = $("audio").data("path");
-      var audios = $("audio")
-      audios.attr("src", staticPrefix + data.question_data.audio_file)
-      audios.each((i, a) => {
-        a.pause()    
-        a.currentTime = 0
-      });
+      var audio = $("audio[data-lpk='" + data.current_lpk + "']");
+      audio.attr("src", staticPrefix + data.question_data.audio_file)
+      audio[0].load()
+      audio[0].currentTime = 0
+      $(".ap-play-button").removeClass("ap-pause").addClass("ap-play");
     } else {
       vanish($(".audio-player"));
     }
@@ -178,5 +178,5 @@ $(document).ready(function() {
   function appear(e) {
     e.removeClass("d-none");
   }
-
+  
 });
