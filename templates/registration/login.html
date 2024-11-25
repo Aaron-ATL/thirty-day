@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% extends 'registration/login_base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block login_body %}
+    <div class="w-100 align-self-end pt-1 pt-md-4 pb-4" style="max-width: 526px;">
+        <h1 class="text-center text-xl-start">Welcome Back</h1>
+        <p class="text-center text-xl-start pb-3 mb-3">Don’t have an account yet? <a href="https://30daybassist.com" style="color: #14aff1;">Register here.</a></p>
+        <form class="needs-validation mb-2" method="post" novalidate>
+        {% csrf_token %}
+        {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+        {% endfor %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% for field in form.visible_fields %}
+            <div>
+            {% if form.is_bound %}
+                {% if field.errors %}
+                <label for="{{ field.id_for_label }}" class="form-label fs-base">{{ field.label }}</label>
+                {% if field.name == "username"  %}
+                    {% render_field field class="form-control is-invalid form-control-lg mb-4" type="email" %}
+                {% else %}
+                    {% render_field field class="form-control is-invalid form-control-lg mb-4" %}
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                    {{ error }}
+                    </div>
+                {% endfor %}
+                {% else %}
+                    <label for="{{ field.id_for_label }}" class="form-label fs-base">{{ field.label }}</label>
+                    {% if field.name == "username"  %}
+                        {% render_field field class="form-control is-valid form-control-lg mb-4" type="email" %}
+                    {% else %}
+                        {% render_field field class="form-control is-valid form-control-lg mb-4" %}
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <label for="{{ field.id_for_label }}" class="form-label fs-base">{{ field.label }}</label>
+                {% if field.name == "username"  %}
+                    {% render_field field class="form-control form-control-lg mb-4" type="email" %}
+                {% else %}
+                    {% render_field field class="form-control form-control-lg mb-4" %}
+                {% endif %}
+            {% endif %}
+        
+            {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            </div>
+        {% endfor %}
+            <button type="submit" class="btn btn-primary btn-lg w-100 mt-3" style="border 3px solid #1450E0">Sign in</button>
+        </form>
+        <a href="{% url 'password_reset' %}" class="btn btn-link btn-lg w-100 text-secondary">Forgot your password?</a>
+        <hr class="my-4">
+    </div>
+{% endblock login_body %}

@@ -9,7 +9,7 @@
     {% endblock title %}
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="A complete beginner bass method">
+    <meta name="description" content="The Complete Beginner Bass Method by Charles Berthoud">
     <meta name="keywords" content="music, bass, guitar, charles berthoud, youtube, online course, music course">
     <meta name="author" content="CBASS LLC">
 
@@ -185,7 +185,10 @@
           <!-- Navbar Menu (visible on large screens) -->
           <ul class="navbar-nav mb-2 mb-lg-0 d-none d-lg-flex">
             <li class="nav-item">
-              <a href="{% url 'logout' %}" class="nav-link">Sign out</a>
+              <form method="post" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <a href="#" onclick="this.closest('form').submit();return false;" class="nav-link">Sign out</a>
+              </form>
             </li>
             {% if request.user.profile.community_member %}
             <li class="nav-item">
