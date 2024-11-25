@@ -12,7 +12,6 @@ def start_quiz(request):
     questions_not_done = all_lesson_questions.exclude(pk__in=questions_already_done)
     stars_earned_on_this_lesson = len(all_lesson_questions) - len(questions_not_done)
     profile.progress_info["current_quiz"] = sorted(list(set(questions_not_done.values_list('pk', flat=True))))
-    print(profile.progress_info["current_quiz"], questions_not_done.values_list('pk', flat=True))
     profile.save()
     
     if not questions_not_done:
