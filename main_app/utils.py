@@ -17,7 +17,7 @@ def send_activation_email(user):
             use_https=True,
             subject_template_name='registration/activation_subject.txt',
             email_template_name='registration/account_activation_email.html',
-#!            from_email=[[[[REPLACE]]]],
+            from_email="support@30daybassist.com",
             html_email_template_name='registration/account_activation_email.html'
         )
 
