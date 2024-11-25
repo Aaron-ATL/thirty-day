@@ -156,6 +156,6 @@ if IS_HEROKU:
     #! SHOPIFY_WEBHOOK_SECRET = os.environ["SHOPIFY_WEBHOOK_SECRET"]
     DOMAIN = "app.30daybassist.com"
     
-#! SHOPIFY_PRODUCT_ID = [[[[REPLACE]]]]
+SHOPIFY_PRODUCT_ID = 9913299829010
 DEFAULT_FROM_EMAIL = "support@30daybassist.com"
 DEFAULT_PW = "temporary1"
